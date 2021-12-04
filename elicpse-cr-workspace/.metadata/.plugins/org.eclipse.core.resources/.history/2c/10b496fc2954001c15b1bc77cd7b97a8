@@ -1,0 +1,19 @@
+package cashier_register;
+
+public class Printer {
+	public String receipt;
+	public String Check;
+	public Client client;
+	
+	public Printer(Client client) {
+		this.client = client;
+	}
+	
+	public String printReceipt(String receipt) {
+		 client.resp.add(receipt);
+	}
+	
+	public String printCheck(Check check) {
+		
+	}
+}

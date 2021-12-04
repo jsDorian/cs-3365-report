@@ -1,0 +1,3 @@
+eclipse.preferences.version=1
+org.eclipse.debug.core.PREF_BREAKPOINT_MANAGER_ENABLED_STATE=true
+prefWatchExpressions=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?>\r\n<watchExpressions>\r\n    <expression enabled\="true" text\="this.queue.size()"/>\r\n    <expression enabled\="true" text\="type"/>\r\n    <expression enabled\="true" text\="b"/>\r\n    <expression enabled\="true" text\="fromClient"/>\r\n    <expression enabled\="true" text\="this._name"/>\r\n    <expression enabled\="true" text\="values[1]"/>\r\n    <expression enabled\="true" text\="type"/>\r\n    <expression enabled\="true" text\="this.server.amount"/>\r\n</watchExpressions>\r\n

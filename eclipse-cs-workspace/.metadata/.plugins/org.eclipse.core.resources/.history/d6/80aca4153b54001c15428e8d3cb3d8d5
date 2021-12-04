@@ -1,0 +1,12 @@
+package checkout_system;
+
+public class Supplier {
+	
+	public Supplier() {
+		
+	}
+	
+	public void makeOrder(int itemId, int amount) {
+		
+	}
+}

@@ -1,0 +1,119 @@
+package checkout_system;
+
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.Socket;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.LinkedList;
+import java.util.Queue;
+import javafx.scene.control.*;
+
+class ServerThread extends Thread {
+
+    private Socket socket = null;
+    public String name = null;
+    public TextArea display = null;
+    public int relativeId;
+    public Queue<String> queue = new LinkedList<>();
+    private boolean stop;
+    private Server server = null;
+
+    public ServerThread(Socket socket, TextArea display, Server server, int relativeId) {
+        this.socket = socket;
+        this.display = display;
+        this.server = server;
+        this.relativeId = relativeId;
+    }
+
+    @Override
+    public void run() {
+
+        try{
+            stop = false;
+            
+            DataInputStream in = new DataInputStream( socket.getInputStream() );
+            DataOutputStream out = new DataOutputStream( socket.getOutputStream() );
+            out.writeUTF("app-name");
+            
+            System.out.println("ServerThread: " + "app-name");
+            
+            new Thread(()->queueListener(this)).start();
+            
+            String fromClient = null;
+            
+            while(!stop){
+            	if (in.available() != 0) {
+            		fromClient = in.readUTF();
+            	}
+            	
+                if (fromClient != null) {
+                    if (this.name != null) {
+                    	writeToDisplay(this.name + ": sent message - " + fromClient);
+                    } else {
+                    	writeToDisplay("CLIENT: sent message - " + fromClient);
+                    }
+                    
+                    this.server.queue.add(fromClient);
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void queueListener() {
+		Boolean remove = false;
+		
+		while (!remove) {
+			String value = null;
+			
+			try {
+				value = server.queue.remove();
+	    		
+	    		String[] result = value.split(",");
+	    		
+	    		ServerThread.this.onMessage(result);
+			} catch (Exception e) {
+				//e.printStackTrace();
+			}
+		}
+	}
+    
+    public void onMessage(String[] values) {
+		String type = values[0];
+		
+		if (type == "app-name") {
+			this.name = values[1];
+			this.server.setAppName(values[1], this.relativeId);
+		} else {
+			String msg = "";
+			
+			for (String str : values) {
+				msg += str + ",";
+			}
+			
+			msg += this.name;
+			this.server.queue.add(msg);
+		}
+	}
+    
+    public void writeToDisplay(String msg) {
+    	String text = this.display.getText();
+    	
+    	text += "\n" + msg;
+    	
+    	this.display.setText(text);
+    }
+    
+    public void enqueue(SocketMessage msg) {
+    	
+    }
+
+    void stopServerTread(){
+        stop = true;
+    }
+}

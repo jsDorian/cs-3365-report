@@ -1,0 +1,14 @@
+package cashier_register;
+
+public class Printer {
+	public String receipt;
+	public String Check;
+	
+	public String printReceipt(String receipt) {
+		
+	}
+	
+	public String printCheck(Check check) {
+		
+	}
+}

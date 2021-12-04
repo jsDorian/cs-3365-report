@@ -1,0 +1,14 @@
+package cashier_register;
+
+public class Register {
+	public int cash = 0;
+	
+	public void addCash(int amount) {
+		this.cash += amount;
+	}
+	
+	public int getChange(int change) {
+		this.cash -= change;
+		return change;
+	}
+}

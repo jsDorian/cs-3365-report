@@ -1,0 +1,16 @@
+package checkout_system;
+
+public class Supplier {
+	String dbAddr = "jdbc:sqlite:stock.db";
+	Connector db;
+	Connection conn;
+	
+	public Supplier() {
+		
+	}
+	
+	public void makeOrder(int itemId, int amount) {
+		db = new Connector(dbAddr);
+		conn = db.getConnection();
+	}
+}

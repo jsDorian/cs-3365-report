@@ -1,0 +1,9 @@
+package cashier_register;
+
+import java.time.*;
+
+public class Check {
+	public String fullname;
+	public String accountNumber;
+	public LocalDate date;
+}
